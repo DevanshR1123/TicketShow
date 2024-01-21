@@ -2,7 +2,7 @@
 
 An app that allows user to browe shows and venues and book ticktes for the desired show.
 
-Completed in partial fulfillment of the requirements of IITM's Modern Application Development (MAD-1) course.
+Completed in fulfillment of the requirements of IITM BS in Data Science & Applications Degree Programme's [Modern Application Development (MAD-1) Project course (BSCS2003P)](https://study.iitm.ac.in/ds/course_pages/BSCS2003P.html).  
 
 ![Homepage](images/home.png)
 
