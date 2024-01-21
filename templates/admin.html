@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Admin Panel
+{% endblock %}
+
+{% set page_class = "admin-page" %}
+
+{% block content %}
+
+<section class="admin-panel">
+    <h1 class="heading">Admin Panel</h1>
+
+    <h2 class="admin-header">Shows</h2>
+    <div class="admin-show-table admin-table">
+        <div class="table-header show-table-row table-row">
+            <span></span>
+            <span>Name</span>
+            <span>Description</span>
+            <span>Ticket</span>
+            <span>Rating</span>
+            <span>Tags</span>
+            <span>Actions</span>
+        </div>
+        {% for show in shows %}
+        <div class="show-table-row table-row">
+            <span>{{ loop.index }}</span>
+            <a href="/show/{{ show.id }}">{{ show.name }}</a>
+            <span>{{ show.category }}: {{ show.description }}</span>
+            <span>₹{{ show.ticket_price|round(2) }}</span>
+            <span>{{ show.rating|round(1) }}/5</span>
+
+            <span>
+                {% for tag in show.tags %}
+                {{ tag.tag }}&nbsp;
+                {% endfor %}
+            </span>
+
+
+            <a href="/shows/edit/{{ show.id }}" role="button" class="edit-btn">
+                <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="edit button">
+            </a>
+
+
+            <button class="delete-btn" data-id="{{ show.id }}" data-entity="shows">
+                <img src="{{ url_for('static', filename='assets/delete-icon.png') }}" alt="delete button">
+            </button>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="admin-header">Venues</h2>
+    <div class="admin-venue-table admin-table">
+        <div class="table-header venue-table-row table-row">
+            <span></span>
+            <span>Name</span>
+            <span>Description</span>
+            <span>Location</span>
+            <span>Rating</span>
+            <span>Capacity</span>
+            <span>Actions</span>
+        </div>
+        {% for venue in venues %}
+        <div class="venue-table-row table-row">
+            <span>{{ loop.index }}</span>
+            <a href="/venue/{{ venue.id }}" class="admin-link">{{ venue.name }}</a>
+            <span>{{ venue.description }}</span>
+            <span>{{ venue.location }}</span>
+            <span>{{ venue.rating|round(1) }}/5</span>
+            <span>{{ venue.capacity }}</span>
+
+
+            <a href="/venues/edit/{{ venue.id }}" role="button" class="edit-btn">
+                <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="edit button">
+            </a>
+
+
+            <button class="delete-btn" data-id="{{ venue.id }}" data-entity="venues">
+                <img src="{{ url_for('static', filename='assets/delete-icon.png') }}" alt="delete button">
+            </button>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</section>
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            id = btn.getAttribute('data-id')
+            entity = btn.getAttribute('data-entity')
+            confirm_delete = confirm('Confirm delete?')
+            if (confirm_delete)
+                fetch(`/api/${entity}/${id}`, { method: 'DELETE' }).then(_ => {
+                    location.reload()
+                })
+        })
+    })
+
+</script>
+
+{% endblock %}

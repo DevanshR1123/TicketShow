@@ -1,0 +1,362 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+    Ticket Show, a web applications to browse and book movie show tickets
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/api/
+tags:
+  - name: show
+    description: All about movie shows
+  - name: venue
+    description: venues screening the movies
+paths:
+
+  /show:
+    get:
+      tags:
+        - show
+      summary: Fetch all shows
+      description: Returns a all the shows
+      operationId: getShows
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Show_with_id'
+    post:
+      tags:
+        - show
+      summary: Add a new shows to the database
+      description: Add a new show
+      operationId: addShow
+      requestBody:
+        description: Create a new show for the venues
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Show'
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show_with_id'          
+ 
+                
+  /show/{id}:
+    get:
+      tags:
+        - show
+      summary: Find show by ID
+      description: Returns a single show
+      operationId: getShowById
+      parameters:
+        - name: id
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show_with_id'          
+
+        '404':
+          description: Show not found
+  
+    delete:
+      tags:
+        - show
+      summary: Deletes a show
+      description: delete a venue
+      operationId: deleteShow
+      parameters:
+        - name: id
+          in: path
+          description: ID of show to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: succesful deleted show
+        '404':
+          description: Show not found
+          
+    put:
+      tags:
+        - show
+      summary: Update an existing show
+      description: Update an existing show by Id
+      operationId: updateShow
+      parameters:
+        - name: id
+          in: path
+          description: ID of show to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent show in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Show'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show_with_id'          
+        '404':
+          description: Show not found
+
+  /venue:
+    get:
+      tags:
+        - venue
+      summary: Fetch all venues
+      description: Returns a all the venues
+      operationId: getVenues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Venue_with_id'
+    post:
+      tags:
+        - venue
+      summary: Add a new venues to the database
+      description: Add a new venue
+      operationId: addVenue
+      requestBody:
+        description: Create a new venue
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Venue'
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show_with_id'          
+ 
+                
+  /venue/{id}:
+    get:
+      tags:
+        - venue
+      summary: Find venue by ID
+      description: Returns a single venue
+      operationId: getVenueById
+      parameters:
+        - name: id
+          in: path
+          description: ID of venue to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show_with_id'          
+
+        '404':
+          description: Show not found
+  
+    delete:
+      tags:
+        - venue
+      summary: Deletes a venue
+      description: delete a venue
+      operationId: deleteVenue
+      parameters:
+        - name: id
+          in: path
+          description: ID of venue to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: succesful deleted venue
+        '404':
+          description: Venue not found
+          
+    put:
+      tags:
+        - venue
+      summary: Update an existing venue
+      description: Update an existing venue by Id
+      operationId: updateVenue
+      parameters:
+        - name: id
+          in: path
+          description: ID of venue to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent venue in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Venue'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venue_with_id'          
+        '404':
+          description: Venue not found
+  
+components:
+  schemas:
+    Show:
+      type: object
+      required:
+        - name
+        - ticket_price
+      properties:
+        name:
+          type: string
+          example: "show_name"
+        description:
+          type: string
+          example: "this describes a show"
+        category:
+          type: string
+          example: "Hollywood"
+        rating:
+          type: number
+          description: rating of the show
+          example: 2.4
+        ticket_price:
+          type: number
+          description: price of the ticket for the show
+          example: 100.00
+        tags:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+            
+    Show_with_id:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 5
+        name:
+          type: string
+          example: "show_name"
+        description:
+          type: string
+          example: "this describes a show"
+        category:
+          type: string
+          example: "Hollywood"
+        rating:
+          type: number
+          description: rating of the show
+          example: 2.4
+        ticket_price:
+          type: number
+          description: price of the ticket for the show
+          example: 100.00
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+            
+    Tag:
+      type: string
+      example: 
+        - "Action"
+        - "Horror"
+    
+    Venue:
+      type: object
+      required:
+        - name
+        - ticket_price
+      properties:
+        name:
+          type: string
+          example: "venue_name"
+        description:
+          type: string
+          example: "this describes a venue"
+        location:
+          type: string
+          example: "Mumbai"
+        rating:
+          type: number
+          description: rating of the venue
+          example: 2.4
+        capacity:
+          type: integer
+          description: capacity of the venue
+          example: 100
+            
+    Venue_with_id:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 5
+        name:
+          type: string
+          example: "venue_name"
+        description:
+          type: string
+          example: "this describes a venue"
+        location:
+          type: string
+          example: "Mumbai"
+        rating:
+          type: number
+          description: rating of the venue
+          example: 2.4
+        capacity:
+          type: integer
+          description: capacity of the venue
+          example: 100

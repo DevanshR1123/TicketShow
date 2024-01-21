@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Booking
+{% endblock %}
+
+{% set page_class = "booking-page" %}
+
+{% block content %}
+
+<section class="booking">
+    <form action="/book/{{ scheduled_show.id }}" class="booking-form" method="post">
+
+        <h2 class="booking-show heading">{{ scheduled_show.show.name }}</h2>
+        <p class="description">
+            {{ scheduled_show.show.description }}
+        </p>
+
+        <span>Venue: {{ scheduled_show.venue.name }}, {{ scheduled_show.venue.location }}</span>
+        <span>Date & Time: {{ scheduled_show.show_date_time|formatdatetime }} </span>
+        <hr>
+        <span>Name: {{ current_user.first_name }} {{ current_user.last_name }} </span>
+        <hr>
+
+        <div class="n_tickets">
+            <label for="n_tickets">No. of Tickets: </label>
+            <input id="n_tickets" type="number" name="no_of_tickets" min="1" value="1"
+                max="{{ scheduled_show.venue.capacity - scheduled_show.total_tickets }}">
+        </div>
+
+
+        <input type="submit" value="Confirm Booking" class="book-btn link-btn">
+    </form>
+
+</section>
+
+{% endblock %}

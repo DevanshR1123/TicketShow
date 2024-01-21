@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | {{ venue.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="venue-page content-page">
+
+    <h3 class="venue-header heading">{{ venue.name }}</h3>
+
+    {% if current_user.role == "admin" %}
+    <a href="/venue/edit/{{ venue.id }}" role="button" class="edit-btn">
+        <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="">
+    </a>
+    {% endif %}
+
+    <div class="show-content">
+        <span class="venue-description">{{ venue.description }}</span>
+        <span class="venue-cost">Capacity: ₹{{ venue.capacity }}</span>
+        <span class="venue-rating">Rating: {{ venue.rating|round(1) }}/5</span>
+    </div>
+
+    <div class="show-schedule">
+        <h2 class="upcoming-header">Upcoming Shows</h2>
+        {% if upcoming %}
+        <div class="show-table">
+            <div class="table-header schedule-table-row">
+                <span>Date</span>
+                <span>Time</span>
+                <span>Venue</span>
+                <span></span>
+            </div>
+
+            {% for ss in venue.scheduled_shows %}
+            {% if ss.upcoming %}
+
+            <div class="schedule-table-row">
+
+                <span>{{ ss.show_date_time|formatdate }}</span>
+                <span>{{ ss.show_date_time|formattime }}</span>
+                <span class="scheduled_show">{{ ss.show.name }}</span>
+                <a href="/book/{{ss.id}}" class="book-link link-btn">Book</a>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <p>No upcoming show...</p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

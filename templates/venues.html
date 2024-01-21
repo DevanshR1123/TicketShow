@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Venues
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<section class="venues-page content-page">
+    <h2 class="venue-heading heading">Venues</h2>
+
+    {% if current_user.role == "admin" %}
+    <a href="/venue/add" role="button" class="add-btn link-btn">+ Add Venue</a>
+    {% endif %}
+
+    <div class="venue-filter filter">
+        <form action="/venues" class="filter-form">
+            <label for="location-select">Location: </label>
+            <select name="location" id="location-select">
+                <option value="" selected>Select</option>
+                {% for location in locations %}
+                <option value="{{ location }}">{{ location }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="min-rating">Min Rating: </label>
+            <input type="number" name="rating" id="min-rating" min="1" max="5" value="1">
+
+            <input type="submit" value="Search" class="search-btn link-btn">
+        </form>
+    </div>
+
+    {% if venues|length > 0 %}
+
+    <div class="venue-cards cards">
+
+        {% for venue in venues %}
+        <div class="venue-card card">
+            <h3 class="venue-card-header card-header">{{ venue.name }}</h3>
+
+            {% if current_user.role == "admin" %}
+            <a href="/venue/edit/{{ venue.id }}" role="button" class="edit-btn">
+                <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="">
+            </a>
+            {% endif %}
+
+            <span class="description">{{ venue.description }}</span>
+            <span>{{ venue.location }}</span>
+            <div class="card-content">
+                <span>Rating: {{ venue.rating|round(1) }}/5</span>
+                <span>Capacity: {{ venue.capacity }}</span>
+            </div>
+
+            <a href="/venue/{{ venue.id }}" role="button" class="link-btn book-btn">View Shows</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="search-msg">No Venues matching your search.</h3>
+    {% endif %}
+</section>
+
+
+{% endblock %}

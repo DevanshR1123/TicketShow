@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket venue | {{ "New" if mode == 'add' else "Edit" }} Venue
+{% endblock %}
+
+{% set page_class = "edit-page" %}
+
+{% block content %}
+
+<section class="edit edit-venue">
+
+    <div class="edit-form">
+        <h1 class="heading edit-header">{{ "New" if mode == 'add' else "Edit" }} Venue</h1>
+        <form class="edit-details edit-form-section" id="details-form"
+            action="/venue/{{ 'edit/'+ venue.id|string if mode == 'edit' else 'add'  }}" method="post">
+            <h2>Details</h2>
+            <label for="venue-name">Name:</label>
+            <input id="venue-name" type="text" value="{{ venue.name if mode == 'edit' else '' }}" name="name">
+
+            <label for="venue-description">Description:</label>
+            <textarea id="venue-description" type="text"
+                name="description">{{ venue.description if mode == 'edit' else '' }}</textarea>
+
+            <label for="venue-location">Location:</label>
+            <input id="venue-location" type="text" value="{{ venue.location if mode == 'edit' else '' }}"
+                name="location">
+
+            <label for="venue-rating">Rating: </label>
+            <input id="venue-rating" type="number" min="0" max="5" step="0.1"
+                value="{{ venue.rating|round(1) if mode == 'edit' else '' }}" name="rating">
+
+            <label for="venue-capacity">Capacity:</label>
+            <input id="venue-capacity" type="number" min="0" value="{{ venue.capacity if mode == 'edit' else '' }}"
+                name="capacity">
+
+            <input type="submit" value="Save venue" class="link-btn save-btn" id="save-btn">
+        </form>
+</section>
+{% endblock %}

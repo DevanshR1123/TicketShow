@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Shows
+{% endblock %}
+
+{% block content %}
+
+
+<section class="shows-page content-page">
+    <h2 class="heading shows-heading">Shows</h2>
+    {% if current_user.role == 'admin' %}
+    <a href="/show/add" role="button" class="add-btn link-btn">+ Add Show</a>
+    {% endif %}
+
+    <div class="show-filter filter">
+        <form action="/shows" class="filter-form">
+
+            <div class="venue-filter">
+                <label for="venue-select">Venue: </label>
+                <select name="venue" id="venue-select">
+                    <option value="" selected>Select</option>
+                    {% for venue in venues %}
+                    <option value="{{ venue }}">{{ venue }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="tag-filter">
+                <label for="tag-select">Tag: </label>
+                <select name="tag" id="tag-select">
+                    <option value="" selected>Select</option>
+                    {% for tag in tags %}
+                    <option value="{{ tag }}">{{ tag }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="rating-filter">
+                <label for="min-rating">Min Rating: </label>
+                <input type="number" name="rating" id="min-rating" min="1" max="5" value="1">
+            </div>
+            <div class="date-range">
+                <label for="date-input">Date: </label>
+                <span><input type="date" name="date_from" id="date-input"></span>
+                to
+                <span><input type="date" name="date_to"></span>
+            </div>
+
+            <input type="submit" value="Search" class="search-btn link-btn">
+        </form>
+    </div>
+
+    {% if shows|length > 0 %}
+    <div class="show-cards cards">
+
+        {% for show in shows %}
+        <div class="show-card card">
+            <h3 class="show-card-header card-header">{{ show.name }}</h3>
+
+            {% if current_user.role == "admin" %}
+            <a href="/show/edit/{{ show.id }}" role="button" class="edit-btn">
+                <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="">
+            </a>
+            {% endif %}
+
+            <span class="description">{{ show.category }}: {{ show.description }}</span>
+
+            <div class="card-content">
+                <span>Cost: ₹{{ show.ticket_price|round(2) }}</span>
+                <span>Rating: {{ show.rating|round(1) }}/5</span>
+            </div>
+
+            <div class="tags">
+                {% for tag in show.tags %}
+                <span class="tag"> {{ tag.tag }} </span>
+                {% endfor %}
+            </div>
+
+            <a href="/show/{{ show.id }}" role="button" class="link-btn book-btn">Book Tickets</a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h3 class="search-msg">No Shows matching your search.</h3>
+        {% endif %}
+    </div>
+</section>
+
+
+{% endblock %}

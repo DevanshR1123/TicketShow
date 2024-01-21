@@ -1,0 +1,7 @@
+<div class="scheduled-show" id="scheduled-show">
+    <span>{{ venue.name }}, {{ venue.location }}</span>
+    <span>{{ show_date_time|formatdatetime }}</span>
+    <button type="button" class="delete-btn" data-venue="{{ venue.id }}">
+        <img src="{{ url_for('static', filename='assets/delete-icon.png') }}" alt="delete button">
+    </button>
+</div>

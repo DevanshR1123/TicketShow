@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | {{ show.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="show-page content-page">
+
+    <h3 class="show-header heading">{{ show.name }}</h3>
+
+    {% if current_user.role == "admin" %}
+    <a href="/show/edit/{{ show.id }}" role="button" class="edit-btn">
+        <img src="{{ url_for('static', filename='assets/edit-icon.png') }}" alt="">
+    </a>
+    {% endif %}
+
+    <div class="show-content">
+        <div class="tags">
+            {% for tag in show.tags %}
+            <span class="tag"> {{ tag.tag }} </span>
+            {% endfor %}
+        </div>
+        <span class="show-description">{{ show.category }}: {{ show.description }}</span>
+        <span class="show-cost">Cost: ₹{{ show.ticket_price|round(2) }}</span>
+        <span class="show-rating">Rating: {{ show.rating|round(1) }}/5</span>
+    </div>
+
+    <div class="show-schedule">
+        <h2 class="upcoming-header">Upcoming Shows</h2>
+        {% if upcoming %}
+        <div class="show-table">
+            <div class="table-header schedule-table-row">
+                <span>Date</span>
+                <span>Time</span>
+                <span>Venue</span>
+                <span></span>
+            </div>
+
+            {% for ss in show.scheduled_at %}
+            {% if ss.upcoming and not ss.full %}
+
+            <div class="schedule-table-row">
+                <span>{{ ss.show_date_time|formatdate }}</span>
+                <span>{{ ss.show_date_time|formattime }}</span>
+                <span class="scheduled_show">{{ ss.venue.name }}, {{ ss.venue.location }} </span>
+                <a href="/book/{{ss.id}}" class="book-link link-btn">Book</a>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <p>No upcoming show...</p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

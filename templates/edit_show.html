@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | {{ "New" if mode == 'add' else "Edit" }} Show
+{% endblock %}
+
+{% set page_class = "edit-page" %}
+
+{% block content %}
+
+<section class="edit edit-show">
+
+    <div class="edit-form">
+        <h1 class="heading edit-header">{{ "New" if mode == 'add' else "Edit" }} Show</h1>
+        <form class="edit-details edit-form-section" id="details-form">
+            <h2>Details</h2>
+            <label for="show-name">Name:</label>
+            <input id="show-name" type="text" value="{{ show.name if mode == 'edit' else '' }}" name="name">
+
+            <label for="show-description">Description:</label>
+            <textarea id="show-description" type="text"
+                name="description">{{ show.description if mode == 'edit' else '' }}</textarea>
+
+            <label for="show-category">Category:</label>
+            <input id="show-category" type="text" value="{{ show.category if mode == 'edit' else '' }}" name="category">
+
+            <label for="show-rating">Rating: </label>
+            <input id="show-rating" type="number" min="0" max="5" step="0.1"
+                value="{{ show.rating|round(1) if mode == 'edit' else '' }}" name="rating">
+
+            <label for="show-ticket-price">Ticket Price:</label>
+            <input id="show-ticket-price" type="number" min="0"
+                value="{{ show.ticket_price|round(2) if mode == 'edit' else '' }}" name="ticket_price">
+
+            <label for="show-tags">Tags:</label>
+            <input id="show-tags" type="text" value="{{ show.tags|join(',') }}" name="tags">
+
+            <input type="button" value="Save Show" class="link-btn save-btn" id="save-btn">
+        </form>
+        <div class="edit-schedule edit-form-section">
+            <h2>Schedule Shows</h2>
+
+
+            <div class="scheduled-shows" id="scheduled-shows">
+                {% for ss in show.scheduled_at %}
+                <div class="scheduled-show  {{ '' if ss.upcoming else 'expired' }}" id="scheduled-show">
+                    <span>{{ ss.venue.name }}, {{ ss.venue.location }}</span>
+                    <span>{{ ss.show_date_time|formatdatetime }}</span>
+                    <button type="button" class="delete-btn" data-id="{{ ss.id }}" data-venue="{{ ss.venue.id }}">
+                        <img src="{{ url_for('static', filename='assets/delete-icon.png') }}" alt="delete button">
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <form class="schedule-show">
+                <select name="venue_select" id="venue-select">
+                    {% for venue in venues %}
+                    <option value="{{ venue.id }}" id="venue-{{ venue.id }}">{{ venue.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="datetime-local" name="show_date_time" id="show-date-time">
+                <input type="button" value="Add" class="schedule-btn link-btn" id="schedule-btn">
+            </form>
+
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+
+    let schedule_add = []
+    let schedule_remove = []
+
+    const delete_show = e => {
+        e.preventDefault()
+        let x = e.currentTarget
+
+        console.log(x)
+
+        let schedule_at_id = x.getAttribute('data-id')
+        let venue_id = x.getAttribute('data-venue')
+
+        if (!schedule_at_id && venue_id) {
+            let i = schedule_add.findIndex(x => x.venue_id === venue_id)
+            schedule_add.splice(i, 1)
+        }
+
+        schedule_remove.push(schedule_at_id)
+
+        x.parentElement.remove()
+    }
+
+    document.getElementById('schedule-btn').addEventListener('click', e => {
+        e.preventDefault()
+        let venue_id = document.getElementById('venue-select').value
+        let datetime = document.getElementById('show-date-time').value
+
+        let show_date_time = new Date(datetime)
+
+
+        if (!show_date_time.toJSON()) { return alert('Please enter a date.') }
+
+        let i = schedule_add.findIndex(x => x.venue_id === venue_id && x.show_date_time.getTime() === show_date_time.getTime());
+        if (i !== -1) { return alert('Show already exists!') }
+
+
+        ; (async () => {
+            const res = await fetch(`/schedule`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    show_id: '{{ show.id }}',
+                    venue_id,
+                    show_date_time
+                })
+            })
+
+            if (res.status == 400) return alert('Show already exists!')
+
+            const data = await res.text()
+
+            let parser = new DOMParser()
+            let doc = parser.parseFromString(data, 'text/html')
+            let elem = doc.getElementById("scheduled-show")
+            const ss = document.getElementById("scheduled-shows")
+            ss.append(elem)
+            ss.lastChild.lastChild.previousSibling.addEventListener('click', delete_show)
+            schedule_add.push({ venue_id, show_date_time });
+        })();
+
+    })
+
+    document.querySelectorAll('.delete-btn').forEach(ss => {
+        ss.addEventListener('click', delete_show)
+    })
+
+    document.getElementById('save-btn').addEventListener('click', e => {
+
+        let name = document.getElementById('show-name').value
+        let description = document.getElementById('show-description').value
+        let category = document.getElementById('show-category').value
+        let rating = document.getElementById('show-rating').value
+        let ticket_price = document.getElementById('show-ticket-price').value;
+        let tags = document.getElementById('show-tags').value.split(',');
+
+        ; (async () => {
+            const res = await fetch(`/show/${'{{ mode }}' === 'edit' ? 'edit/{{show.id}}' : 'add'}`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    show: {
+                        name, description, category, rating, ticket_price, tags
+                    },
+                    schedule_add, schedule_remove
+                })
+            })
+
+            const data = await res.json()
+
+            if (res.status == 200) location.replace(`/show/${data.id}`)
+        })();
+    })
+
+
+
+</script>
+
+{% endblock %}

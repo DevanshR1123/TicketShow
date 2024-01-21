@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | {{ current_user.first_name }} {{ current_user.last_name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="profile">
+
+    <h1 class="profile-heading heading">{{ current_user.first_name }} {{ current_user.last_name }}</h1>
+    <div class="user-details">
+        <span>Username: {{ current_user.username }}</span>
+        <span>Email: {{ current_user.email }}</span>
+    </div>
+
+    {% if current_user.role == "admin" %}
+    <a href="/profile/admin" role="button" class="admin-panel-btn link-btn">Admin Panel</a>
+    {% endif %}
+</section>
+
+{% endblock %}

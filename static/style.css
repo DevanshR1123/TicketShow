@@ -1,0 +1,814 @@
+:root {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  --primary: #007bff;
+  --primary-light: #80bdff;
+  --primary-dark: #0063cc;
+  --secondary: #343a40;
+  --secondary-light: #73808c;
+  --secondary-dark: #171a1c;
+  --neutral: #f8f9fa;
+  --neutral-light: #ffffff;
+  --neutral-dark: #b4bfca;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--neutral-dark);
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0.3rem;
+  height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--secondary);
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 100vw;
+}
+
+.heading {
+  font-size: 2.5rem;
+  padding: 1rem;
+}
+
+main {
+  overflow-y: auto;
+  max-height: calc(100vh - 4.5rem);
+}
+
+.link-btn {
+  display: grid;
+  place-items: center;
+
+  background-color: var(--primary);
+  color: var(--neutral);
+
+  padding: 0.5em;
+  border-radius: 0.5rem;
+  border: none;
+
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+
+  transition: all 100ms ease;
+
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.edit-btn {
+  text-decoration: none;
+}
+
+/* NAVBAR */
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+
+  padding: 0.75em 1em;
+
+  background-color: var(--secondary);
+}
+
+.nav-logo {
+  width: 3em;
+  aspect-ratio: 1 / 1;
+}
+
+.nav-header {
+  display: inline-block;
+  color: var(--neutral);
+  font-size: 2em;
+}
+
+.navbar a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3rem;
+
+  padding: 0 5rem;
+}
+
+.nav-link {
+  color: var(--neutral);
+  transition: all 250ms ease;
+
+  /* border-bottom: 2px solid; */
+  /* border-color: var(--neutral); */
+  font-size: 1.25em;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--primary-light);
+  /* border-color: var(--primary); */
+}
+
+.nav-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-btn {
+  color: var(--primary);
+  background-color: var(--neutral);
+
+  font-size: 1.25em;
+
+  padding: 0.5em;
+  border-radius: 0.5em;
+
+  transition: all 250ms ease;
+
+  box-shadow: rgb(0, 0, 0, 0.75) 0 0 0.25em;
+}
+
+.nav-btn:hover {
+  background-color: var(--primary);
+  color: var(--neutral);
+}
+
+/* NAVBAR END */
+
+/* TAGS */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  grid-column: 1 / -1;
+}
+
+.tag {
+  display: inline-block;
+  background-color: var(--secondary);
+  color: var(--neutral);
+  padding: 0.3em 0.5em;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  height: min-content;
+}
+
+/* TAGS END */
+
+/* SIGNUP FORM */
+
+.signup {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.signup-form {
+  display: grid;
+  gap: 1em;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  background-color: var(--secondary);
+  padding: 2.5rem;
+  border-radius: 1rem;
+}
+
+.signup-header {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--neutral);
+  grid-column: 1 / -1;
+}
+
+.signup-form input {
+  font-size: 1rem;
+  font-weight: bold;
+
+  padding: 0.5em;
+
+  outline-color: var(--primary);
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.signup-btn {
+  background-color: var(--primary);
+  color: var(--neutral);
+  border: none;
+  transition: all 250ms ease;
+  grid-column: 1 / -1;
+}
+
+.signup-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.signup-error {
+  color: #ff5a5a;
+  grid-column: 1 / -1;
+}
+
+.signup-msg {
+  color: var(--neutral);
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.signup-msg a {
+  color: var(--primary-light);
+}
+
+/* SIGNUP FORM END */
+
+/* LOGIN FORM */
+
+.login {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.login-form {
+  display: grid;
+  gap: 1em;
+
+  background-color: var(--secondary);
+  padding: 2.5rem;
+  border-radius: 1rem;
+}
+
+.login-header {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--neutral);
+}
+
+.login-form input {
+  font-size: 1rem;
+  font-weight: bold;
+
+  padding: 0.5em;
+
+  outline-color: var(--primary);
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.login-btn {
+  background-color: var(--primary);
+  color: var(--neutral);
+  border: none;
+  transition: all 250ms ease;
+}
+
+.login-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.login-error {
+  color: #ff5a5a;
+}
+
+.login-msg {
+  color: var(--neutral);
+  text-align: center;
+}
+.login-msg a {
+  color: var(--primary-light);
+}
+
+/* LOGIN FORM END */
+
+/* CARD */
+
+.content-page {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.content-page .cards {
+  grid-column: 1 / -1;
+}
+
+.cards {
+  display: grid;
+  grid-auto-flow: dense row;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+  gap: 0.5em;
+
+  color: var(--secondary);
+  background-color: var(--neutral);
+  border: 2px solid var(--primary);
+
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.card > span {
+  grid-column: 1 / -1;
+}
+
+.card-header {
+  font-size: 1.25rem;
+}
+
+.edit-btn img {
+  width: 1.5em;
+  aspect-ratio: 1 / 1;
+}
+
+.description {
+  font-size: 0.75em;
+  margin-bottom: 1em;
+}
+
+.card-content {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.book-btn {
+  margin-top: 0.5em;
+  grid-column: 1 / -1;
+  height: min-content;
+  place-self: end;
+  width: 100%;
+}
+
+.add-btn {
+  margin: 1rem;
+}
+
+/* CARD END */
+
+/* PROFILE */
+
+.profile {
+  display: grid;
+  gap: 0.75em;
+}
+
+.user-details {
+  display: grid;
+  font-size: 1.25rem;
+  gap: 0.5em;
+  padding: 0.5rem 1rem;
+}
+
+.change-password-btn {
+  margin-top: 0.5em;
+}
+
+.profile .link-btn {
+  max-width: fit-content;
+  margin: 0 1rem;
+}
+
+/* PROFILE END */
+
+/* HOME */
+
+.hero {
+  background-color: var(--primary);
+  color: var(--neutral);
+  font-size: 1.5rem;
+  padding: 0.5em;
+}
+.hero-header {
+  font-weight: bold;
+}
+
+.hero-link {
+  text-decoration: none;
+  color: var(--neutral);
+  position: relative;
+  transition: text-decoration 50ms ease;
+}
+
+.hero-link:hover {
+  text-decoration: underline;
+}
+
+.home-page :is(.venues, .shows) {
+  display: grid;
+  padding: 1rem;
+}
+
+.section-header {
+  font-size: 2rem;
+}
+
+.home-shows {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.home-shows a.show-card {
+  gap: 0.5em;
+  text-decoration: none;
+}
+
+.home-venues {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+.home-venues a.venue-card {
+  text-decoration: none;
+}
+
+/* HOME END */
+
+/* TICKETS */
+.ticket-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ticket {
+  grid-template-columns: auto 1fr;
+  gap: 0 1rem;
+}
+
+.ticket img {
+  width: 5rem;
+  aspect-ratio: 1 / 1;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.ticket-content {
+  display: grid;
+}
+
+.no-ticket-msg a {
+  color: var(--primary);
+}
+
+/* TICKETS END */
+
+/* SHOW & VENUE PAGE */
+
+.show-page,
+.venue-page {
+  font-size: 1.25rem;
+}
+
+.content-page > .edit-btn {
+  margin: 1rem;
+}
+
+.show-page .edit-btn img,
+.venue-page .edit-btn img {
+  width: 3rem;
+}
+
+.show-content,
+.venue-content {
+  display: grid;
+  gap: 0.5em;
+  grid-column: 1 / -1;
+  padding: 0 1rem;
+}
+
+.show-schedule {
+  grid-column: 1 / -1;
+  padding: 1rem;
+}
+
+.show-table {
+  display: grid;
+  gap: 0 1em;
+  padding: 1rem;
+}
+
+.schedule-table-header {
+  font-weight: bold;
+}
+
+.schedule-table-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 4fr 1fr;
+  place-items: center;
+  padding: 0.5em;
+}
+
+.schedule-table-row:nth-child(odd) {
+  background-color: var(--neutral-light);
+}
+
+.book-link {
+  max-width: fit-content;
+}
+
+/* SHOW & VENUE PAGE END */
+
+/* SEARCH */
+
+.filter {
+  grid-row: 2;
+  background-color: var(--primary-light);
+  padding: 1rem;
+  grid-column: 1 / -1;
+}
+
+.filter-form {
+  font-weight: bold;
+  display: grid;
+
+  grid-auto-flow: column;
+
+  align-items: center;
+  gap: 0.5em 1em;
+  font-size: 1.25rem;
+}
+
+.filter-form :is(input, select) {
+  font-size: 1em;
+}
+
+.search-btn {
+  display: inline-block;
+  border: none;
+  padding: 0.5em 0.75em;
+  margin-left: auto;
+  font-size: 1.5rem;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+
+.search-msg {
+  padding: 1rem;
+  grid-row: 3;
+}
+
+/* SEARCH END */
+
+/* ADMIN PANEL */
+
+.admin-header {
+  font-size: 1.5rem;
+  padding: 0 2rem;
+}
+
+.admin-table {
+  display: grid;
+  padding: 1rem 2rem;
+  background-color: var(--neutral-dark);
+  color: var(--secondary-dark);
+  grid-auto-rows: 1fr;
+}
+
+.table-header {
+  font-weight: bold;
+  place-items: center;
+}
+
+.table-header :last-child {
+  grid-column: span 2;
+}
+
+.table-row {
+  border: 2px solid var(--secondary-dark);
+  display: grid;
+  align-items: center;
+  gap: 1em;
+  padding: 0.5em;
+}
+
+.show-table-row {
+  grid-template-columns: 1rem 3fr 4fr 1.5fr 1fr 2.5fr 2rem 2rem;
+}
+
+.show-table-row span:nth-child(1) {
+  place-self: center;
+}
+
+.show-table-row span:nth-child(3) {
+  overflow-y: scroll;
+  max-height: 2lh;
+}
+
+.show-table-row span:nth-child(4),
+.show-table-row span:nth-child(5),
+.show-table-row span:nth-child(6) {
+  text-align: center;
+}
+
+.table-row :is(.edit-btn, .delete-btn) {
+  place-self: center;
+}
+
+.table-row :is(.edit-btn, .delete-btn) img {
+  width: 1.5rem;
+  aspect-ratio: 1 / 1;
+}
+
+.venue-table-row {
+  grid-template-columns: 1rem 3fr 4fr 1.75fr 1fr 1fr 2rem 2rem;
+}
+
+.venue-table-row span:nth-child(5),
+.venue-table-row span:nth-child(6) {
+  text-align: center;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ADMIN PANEL END */
+
+/* BOOKING PAGE */
+
+.booking {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.booking-show {
+  padding: 0;
+}
+
+.booking-form {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1em;
+
+  font-size: 1.5rem;
+
+  background-color: var(--secondary);
+  color: var(--neutral);
+  padding: 2.5rem;
+  border-radius: 1rem;
+
+  max-width: 60vw;
+}
+
+.n_tickets input {
+  display: inline-block;
+  font-size: 1.5rem;
+  height: 2rem;
+  width: 4ch;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* BOOKING PAGE END */
+
+/* EDIT & CREATE PAGE */
+
+.edit {
+  display: grid;
+  /* place-items: center; */
+  padding: 0.5rem 1rem;
+}
+
+.edit-form {
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  gap: 0.25em 0s;
+
+  border-radius: 1rem;
+}
+
+.edit-header {
+  grid-column: 1 / -1;
+  padding: 0;
+  border-bottom: 4px solid var(--secondary-dark);
+}
+
+.edit-form-section h2 {
+  grid-column: 1 / -1;
+  font-size: 2rem;
+}
+
+.edit-details {
+  font-size: 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5em 1em;
+  padding: 0.5em;
+}
+
+.edit-form label {
+  font-weight: bold;
+}
+
+.edit-form input {
+  font-size: 1em;
+  padding: 0.25em;
+}
+
+.edit-form textarea {
+  font-size: 0.75em;
+  height: 5lh;
+  width: 50ch;
+  padding: 0.5em;
+  resize: none;
+}
+
+.save-btn {
+  grid-column: 1 / -1;
+}
+
+.edit-schedule {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 0.5em;
+  gap: 1em;
+}
+
+.scheduled-shows {
+  display: flex;
+  flex-direction: column;
+  max-height: 14lh;
+  overflow-y: auto;
+}
+
+.scheduled-show {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0.25em 0.5em;
+}
+
+.expired {
+  color: #ff5a5a;
+}
+
+.scheduled-show .delete-btn {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+}
+.scheduled-show .delete-btn img {
+  width: 1rem;
+  aspect-ratio: 1 / 1;
+}
+
+.scheduled-show:nth-child(odd) {
+  background-color: var(--neutral-light);
+}
+
+.schedule-show {
+  display: grid;
+  gap: 0.5em;
+}
+
+.schedule-show :is(select, input) {
+  font-size: 1.25rem;
+  padding: 0.25em;
+}
+
+/* EDIT & CREATE PAGE END */

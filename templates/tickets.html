@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Tickets
+{% endblock %}
+
+{% block content %}
+
+<section class="tickets">
+
+    <h1 class="heading">Tickets</h1>
+    <div class="ticket-cards cards">
+
+        {% if tickets|length > 0 %}
+        {% for t,q in tickets %}
+
+        <div class="ticket card">
+            <img class="ticket-qr" src="data:image/jpeg;base64,{{ q }}">
+
+            {% if not t.ticket.upcoming %}
+            <img class="ticket-expired" src="{{ url_for('static', filename='assets/expired.png') }}">
+            {% endif %}
+
+            <div class="ticket-content">
+                <span><strong>{{ t.ticket.show.name }}</strong></span>
+                <span>{{ t.ticket.venue.name }}</span>
+                <span>{{ t.ticket.show_date_time|formatdatetime }}</span>
+                <span>No. of Tickets: {{ t.ticket.bookings[0].no_of_tickets }}</span>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2 class="no-ticket-msg">No tickets here. <a href="/shows">Book Now!</a> </h2>
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

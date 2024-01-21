@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Ticket Show | Home
+{% endblock %}
+
+{% set page_class = "home-page" %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+<div class="hero">
+    <span class="hero-header">Hi {{ current_user.first_name }}!</span>
+    <a class="hero-link" href="/tickets">View your Tickets >></a>
+</div>
+{% endif %}
+
+<section class="shows">
+    <h2 class="section-header">Shows</h2>
+    <div class="home-shows">
+
+        {% for show in shows %}
+        <a class="show-card card" href="/show/{{ show.id }}">
+            <h3 class="show-card-header card-header">{{ show.name }}</h3>
+            <span>₹{{ show.ticket_price|round(2) }}</span>
+
+            <div class="tags">
+                {% for tag in show.tags %}
+                <span class="tag"> {{ tag.tag }} </span>
+                {% endfor %}
+            </div>
+
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="venues">
+    <h2 class="section-header">Venues</h2>
+    <div class="home-venues">
+        {% for venue in venues %}
+        <a class="venue-card card" href="/venue/{{ venue.id }}">
+            <h3 class="venue-card-header card-header">{{ venue.name }}</h3>
+            <span>{{ venue.location }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
